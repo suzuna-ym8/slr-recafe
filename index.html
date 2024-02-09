@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スタリラカレンダー</title>
+  <meta charset='utf-8' />
+  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/index.global.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.10/index.global.min.js"></script>
+  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.10/index.global.min.js'></script>
+  <script>
+    //カレンダー設定系
+    document.addEventListener('DOMContentLoaded', function () {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: {
+          googleCalendarId: '00b485d92f3a8c5238fc38d7deba65578667b343e4437db9d351c39063160149@group.calendar.google.com',
+          className: 'my-events',
+        },
+
+        googleCalendarApiKey: 'AIzaSyBVqX4fIZrwk8BW4iX89MOX6YK3SBsByDc',
+        timeZone: "Asia/Tokyo", //念のため
+        locale: "jp",
+        contentHeight: 'auto',
+        dayCellContent: function (arg) {
+          return arg.date.getDate();
+        },
+        firstDay: 1,
+        headerToolbar: {
+          left: "prev next title",
+          right: "today"
+        },
+        buttonText: {
+          today: '今日',
+        },
+
+        eventClick: function (arg) {
+          // デバイスの種類がスマートフォンの場合のみ処理を実行
+          if (isMobile()) {
+            showMobileModal(arg.el);
+          }
+        },
+        eventMouseEnter: function (arg) {
+          // デバイスの種類がPCの場合のみ処理を実行
+          if (!isMobile()) {
+            showPCModal(arg.el); // arg.el を渡すことで要素を取得
+          }
+        },
+
+        eventMouseLeave: function (arg) {
+          // デバイスの種類がPCの場合のみ処理を実行
+          if (!isMobile()) {
+            hidePCModal(arg.el); // arg.el を渡すことで要素を取得
+          }
+        },
+      });
+      calendar.render();
+    });
+
+    //カレンダー装飾系
+    function setColor() {
+      const event = document.querySelectorAll('.my-events');
+      if (event.length > 0) {
+        event.forEach((element) => {
+          element.setAttribute('href', '#');
+          var modalItem = document.createElement('p');
+          modalItem.textContent = element.textContent;
+          modalItem.classList.add('my-events-hover');
+          modalItem.classList.add('isHidden');
+          element.appendChild(modalItem);
+          console.log(element.textContent);
+          if (element.textContent.match('受取期限')) {
+            element.style.backgroundColor = '#d60025';
+            element.style.borderColor = '#d60025';
+          }
+          else if (element.textContent.match('アリーナ')) {
+            element.style.backgroundColor = '#11d6cb';
+            element.style.borderColor = '#11d6cb';
+          }
+          else if (element.textContent.match('【新キャラ登場】')) {
+            element.style.backgroundColor = '#EE7674';
+            element.style.borderColor = '#EE7674';
+          }
+          else if (element.textContent.match('トロフィーロード')) {
+            element.style.backgroundColor = '#9bd149';
+            element.style.borderColor = '#9bd149';
+          }
+          else if (element.textContent.match('劇団')) {
+            element.style.backgroundColor = '#F7B32B';
+            element.style.borderColor = '#F7B32B';
+          }
+        });
+      } else {
+        console.log('なんもないって');
+      }
+      setTimeout(() => {
+        document.querySelector('.loading').classList.add('isClose');
+      }, 380);
+    }
+    setTimeout(setColor, 1000);
+
+    //矢印ボタンイベント系
+    setTimeout(() => {
+      const arrToday = document.querySelectorAll('.fc-button-primary');
+      arrToday.forEach((e) => {
+        e.addEventListener('click', function () {
+          console.log('クリック');
+          document.querySelector('.loading').classList.remove('isClose');
+          setTimeout(() => {
+            console.log('実行');
+            setColor();
+          }, 1050);
+        });
+      });
+    }, 1050);
+
+    // モーダル表示関数（PC用）
+    function showPCModal(info) {
+      var child = info.getElementsByClassName('my-events-hover')[0];
+      console.log(child);
+      child.classList.remove('isHidden');
+    }
+    // モーダル非表示関数（PC用）
+    function hidePCModal(info) {
+      var child = info.getElementsByClassName('my-events-hover')[0];
+      console.log(child);
+      child.classList.add('isHidden');
+    }
+    // モーダル表示関数（スマートフォン用）
+    function showMobileModal(info) {
+      console.log(info);
+      var child = info.getElementsByClassName('my-events-hover')[0];
+      console.log(child);
+      child.classList.toggle('isHidden');
+    }
+    // デバイスがモバイルかどうかを判定する関数
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <header class="gbHeader">
+    <h1 class="gbHeaderTitle">スタリラカレンダー（非公式）</h1>
+  </header>
+  <main class="gbMain">
+    <div id='calendar'></div>
+  </main>
+  <div class="loading">loading now...</div>
+</body>
+
+</html>

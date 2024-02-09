@@ -1,0 +1,177 @@
+//create user: Suzuna
+//create date: 2024-02-08
+//last update: 2024-02-08
+
+* {
+  margin: 0;
+  padding: 0;
+  //font-family: 'Montserrat', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+body {
+  background-color: #f8f3f0;
+}
+/*------周辺パーツ-----*/
+.gbHeader {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 8px 24px;
+  z-index: 500;
+  box-shadow: 0 0 5px rgba($color: #000000, $alpha: .3);
+  background-color: #f8f3f0;
+  @media only screen and (max-width: 600px) {
+    padding: 8px 16px;
+  }
+  &Title {
+    color: #814F2A;
+    font-size: 24px;
+    @media only screen and (max-width: 600px) {
+      font-size: 18px;
+    }
+  }
+}
+.gbMain {
+  margin-top: 50px;
+  padding: 24px 24px 40px;
+  @media only screen and (max-width: 600px) {
+    margin-top: 42px;
+    padding: 24px 16px 80px;
+  }
+}
+/*------カレンダー装飾-----*/
+//日付中央配置
+.fc-daygrid-day-top {
+  justify-content: center;
+}
+
+.fc-daygrid-day-number {
+  font-size: 14px;
+  @media only screen and (max-width: 600px) {
+    font-size: 12px;
+  }
+}
+
+/* 土曜日 */
+.fc-day-sat {
+  .fc-daygrid-day-top,
+  .fc-scrollgrid-sync-inner .fc-col-header-cell-cushion,
+  .fc-list-day-cushion {
+    color: #2fc4ff;
+  }
+}
+
+/* 日曜日 */
+.fc-day-sun {
+  .fc-daygrid-day-top,
+  .fc-scrollgrid-sync-inner .fc-col-header-cell-cushion,
+  .fc-list-day-cushion {
+    color: #ff5757;
+  }
+}
+
+.fc {
+  .fc-button-primary,
+  .fc-button-primary:disabled {
+    color: #814F2A;
+    border-color: #C99D7E;
+    background-color: #C99D7E;
+    transition: all .3s ease-in-out;
+  }
+  .fc-button-primary:hover,
+  .fc-button-primary:not(:disabled).fc-button-active,
+  .fc-button-primary:not(:disabled):active {
+    color: #C99D7E;
+    border-color: #814F2A;
+    background-color: #814F2A;
+  }
+  .fc-scroller-harness {
+    overflow: visible;
+  }
+}
+.fc-toolbar {
+  @media only screen and (max-width: 600px) {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    margin: 0 !important;
+    padding: 8px 16px;
+    z-index: 500;
+    background-color: #f8f3f0;
+    box-shadow: 0 0 5px rgba($color: #000000, $alpha: .3);
+  }
+}
+
+.fc .fc-toolbar-title {
+  color: #814F2A;
+  @media only screen and (max-width: 600px) {
+    font-size: 18px;
+  }
+}
+
+.fc-toolbar-chunk {
+  display: flex;
+  align-items: center;
+}
+.fc-theme-standard .fc-scrollgrid {
+  border-color: #e8dad0;
+}
+.fc-theme-standard {
+  td, th {
+    border-color: #e8dad0;
+  }
+}
+.fc table {
+  @media only screen and (max-width: 600px) {
+    font-size: 14px;
+  }
+}
+
+.my-events {
+  margin-bottom: 2px;
+  transition: all .2s ease-in-out;
+  &-hover {
+    position: absolute;
+    background-color: #f8f3f0;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid rgb(201 157 126);
+    top: -43px;
+    color: #814f2a;
+    transition: all .3s ease-in-out;
+    box-shadow: 1px 1px 5px rgba(129, 79, 42, .5);
+    &.isHidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+}
+
+.fc-day-sat, .fc-day-sun {
+  .my-events-hover {
+    left: auto;
+    right: 0;
+  }
+}
+
+.loading {
+  position: fixed;
+  top: 42px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(100% - 42px);
+  z-index: 300;
+  opacity: 1;
+  visibility: visible;
+  transition: all .4s ease-in-out;
+  background-color: rgba(256, 256, 256, 0.6);
+  &.isClose {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
